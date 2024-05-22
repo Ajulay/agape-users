@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: agape
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5432/agape"
+    username: agape
+    password: agape
+  jpa:
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+        ddl-auto: validate
+
+
+
+
