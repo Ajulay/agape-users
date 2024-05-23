@@ -4,3 +4,7 @@ plugins {
 rootProject.name = "agape"
 include("application")
 include("liquibase")
+include("liquibase:generator")
+findProject(":liquibase:generator")?.name = "generator"
+include("liquibase:migration")
+findProject(":liquibase:migration")?.name = "migration"
