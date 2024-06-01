@@ -46,7 +46,21 @@ private fun generateChangelogFile(objectMapper: ObjectMapper) {
             )
         }.toList()
 
-    objectMapper.writeValue(File("${root.absolutePath}/db.changelog-master.yaml"), ChangeLog(changeSet))
+//    objectMapper.writeValue(File(""), ChangeLog(changeSet))
+
+    val changelogFilePath = "${root.absolutePath}/db.changelog-master.yaml"
+    val changelogFile = File(changelogFilePath)
+
+    // Ensure parent directories exist
+    changelogFile.parentFile.mkdirs()
+
+    if (!changelogFile.exists()) {
+        changelogFile.createNewFile()
+    }
+
+    // Write content to YAML file
+    objectMapper.writeValue(changelogFile, ChangeLog(changeSet))
+    println("Changelog file generated at: ${changelogFile.absolutePath}")
 }
 
 fun getEndDelimiter(file: File): String? {
