@@ -14,7 +14,7 @@ import java.io.File
 import java.nio.file.Files
 
 
-const val GO_DELIMITER = "GO"
+const val SQL_DELIMITER = "SQL_END"
 const val RESOURCE_DIR = "../migration/src/main/resources/db/changelog"
 
 fun main() {
@@ -46,17 +46,8 @@ private fun generateChangelogFile(objectMapper: ObjectMapper) {
             )
         }.toList()
 
-//    objectMapper.writeValue(File(""), ChangeLog(changeSet))
-
     val changelogFilePath = "${root.absolutePath}/db.changelog-master.yaml"
     val changelogFile = File(changelogFilePath)
-
-    // Ensure parent directories exist
-    changelogFile.parentFile.mkdirs()
-
-    if (!changelogFile.exists()) {
-        changelogFile.createNewFile()
-    }
 
     // Write content to YAML file
     objectMapper.writeValue(changelogFile, ChangeLog(changeSet))
@@ -64,8 +55,8 @@ private fun generateChangelogFile(objectMapper: ObjectMapper) {
 }
 
 fun getEndDelimiter(file: File): String? {
-    return if (Files.readAllLines(file.toPath()).last() == GO_DELIMITER) {
-        GO_DELIMITER
+    return if (Files.readAllLines(file.toPath()).last() == SQL_DELIMITER) {
+        SQL_DELIMITER
     } else {
         null
     }

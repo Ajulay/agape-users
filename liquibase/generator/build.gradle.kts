@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "1.9.23"
-
 }
 
 group = "com.ajulay"
@@ -22,17 +21,14 @@ kotlin {
     jvmToolchain(21)
 }
 
-tasks.register<Exec>("runSQLGenerator") {
+tasks.register<JavaExec>("runSQLGenerator") {
     group = "build"
-    description = "Run the SQL Generator during compile phase"
-    commandLine = listOf(
-        "java",
-        "-classpath",
-        sourceSets["main"].runtimeClasspath.asPath,
-        "com.ajulay.generator.SQLGeneratorKt"
-    )
+    description = "Run the SQL Generator"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("com.ajulay.generator.SQLGeneratorKt")
 }
 
-tasks.named("compileKotlin") {
+// Ensure the SQL generator runs before the build task
+tasks.named("build") {
     dependsOn("runSQLGenerator")
 }
